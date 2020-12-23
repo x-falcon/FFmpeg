@@ -6,8 +6,8 @@
 PROGNAME=$(basename "$0")
 VERSION=1.20
 CWD=$(pwd)
-PACKAGES="$CWD/packages"
-WORKSPACE="$CWD/workspace"
+PACKAGES="$CWD/build/packages"
+WORKSPACE="$CWD/build/workspace"
 CFLAGS="-I$WORKSPACE/include"
 LDFLAGS="-L$WORKSPACE/lib"
 LDEXEFLAGS=""
@@ -557,7 +557,12 @@ fi
 ##
 
 build "ffmpeg"
-download "https://ffmpeg.org/releases/ffmpeg-4.3.1.tar.bz2"
+
+#download "https://ffmpeg.org/releases/ffmpeg-4.3.1.tar.bz2"
+
+git archive --output $PACKAGES/ffmpeg.tar.gz master
+cd $PACKAGES && rm -fr ffmpeg && mkdir ffmpeg && tar xvf ffmpeg.tar.gz -C ffmpeg && cd ffmpeg
+
 # shellcheck disable=SC2086
 ./configure "${CONFIGURE_OPTIONS[@]}" \
 	--disable-debug \
